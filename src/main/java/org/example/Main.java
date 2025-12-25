@@ -1,8 +1,12 @@
 package org.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.CountDownLatch;
 
 public class Main {
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws InterruptedException {
         RingBuffer<Integer> buffer = new RingBuffer<>(5);
@@ -15,7 +19,7 @@ public class Main {
             try {
                 for (int i = 0; i < max; i++) {
                     buffer.put(i);
-                    System.out.println("Produced: " + i);
+                    log.info("Produced: {}", i);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -28,7 +32,7 @@ public class Main {
             try {
                 for (int i = 0; i < max; i++) {
                     int value = buffer.take();
-                    System.out.println("Consumed: " + value);
+                    log.info("Consumed: {}", value);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
